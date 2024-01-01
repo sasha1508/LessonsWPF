@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,26 @@ namespace LessonsWPF
         public MainWindow()
         {
             InitializeComponent();
+
+            foreach (UIElement el in MainRot.Children)
+            {
+                if (el is Button)
+                {
+                    ((Button)el).Click += Button_Click;
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string str = (string)((Button)e.OriginalSource).Content;
+            if (str == "AC") textLabel1.Text = "";
+            else if (str == "=")
+            {
+                string value = new DataTable().Compute(textLabel1.Text, null).ToString();
+                textLabel1.Text = value;
+            }
+            else  textLabel1.Text += str;
         }
     }
 }
